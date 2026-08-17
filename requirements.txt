@@ -1,0 +1,10 @@
+pandas>=2.2
+numpy>=1.26
+requests>=2.32
+scikit-learn>=1.5
+statsmodels>=0.14
+lifelines>=0.30
+matplotlib>=3.9
+geopandas>=1.0
+networkx>=3.3
+pyarrow>=17.0
