@@ -2,11 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
-
-import streamlit as st
-import pandas as pd
-import numpy as np
-import plotly.express as px
 import streamlit.components.v1 as components
 
 
@@ -29,35 +24,162 @@ st.set_page_config(
 st.markdown("""
 <style>
 
+/* ================================
+   GLOBAL
+   ================================ */
+
+.stApp {
+    background: #f5f7fb;
+}
+
 .block-container {
     padding-top: 2rem;
-    padding-bottom: 3rem;
+    padding-bottom: 4rem;
     max-width: 1500px;
 }
 
-[data-testid="stMetric"] {
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    padding: 18px;
-    border-radius: 12px;
+
+/* ================================
+   SIDEBAR
+   ================================ */
+
+section[data-testid="stSidebar"] {
+    background: #0b1220;
+    border-right: 1px solid #1e293b;
 }
 
-[data-testid="stMetricValue"] {
-    font-size: 30px;
+section[data-testid="stSidebar"] * {
+    color: #e2e8f0;
 }
+
+
+/* ================================
+   TYPOGRAPHY
+   ================================ */
 
 h1 {
-    font-size: 38px !important;
-    font-weight: 700 !important;
+    font-size: 42px !important;
+    font-weight: 750 !important;
+    letter-spacing: -1.5px;
+    color: #0f172a;
 }
 
 h2 {
-    margin-top: 35px;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px;
+    margin-top: 40px;
+    color: #0f172a;
 }
 
 h3 {
-    margin-top: 25px;
+    font-size: 20px !important;
+    font-weight: 650 !important;
+    color: #334155;
 }
+
+
+/* ================================
+   METRIC CARDS
+   ================================ */
+
+[data-testid="stMetric"] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    transition: all 0.2s ease;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+[data-testid="stMetricLabel"] {
+    color: #64748b !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+[data-testid="stMetricValue"] {
+    color: #0f172a !important;
+    font-size: 32px !important;
+    font-weight: 750 !important;
+}
+
+
+/* ================================
+   INFO BOX
+   ================================ */
+
+.info-box {
+    padding: 22px 24px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+
+/* ================================
+   SECTION CONTAINERS
+   ================================ */
+
+div[data-testid="stExpander"] {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+
+/* ================================
+   DATAFRAMES
+   ================================ */
+
+div[data-testid="stDataFrame"] {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+
+/* ================================
+   BUTTONS
+   ================================ */
+
+.stButton > button {
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    padding: 8px 18px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-1px);
+    border-color: #64748b;
+}
+
+
+/* ================================
+   DIVIDERS
+   ================================ */
+
+hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 35px 0;
+}
+
+
+/* ================================
+   RISK LABELS
+   ================================ */
 
 .risk-high {
     color: #dc2626;
@@ -74,17 +196,90 @@ h3 {
     font-weight: 700;
 }
 
-.info-box {
-    padding: 18px;
-    border-radius: 10px;
-    background: #f8fafc;
-    border: 1px solid #e5e7eb;
-    margin-bottom: 20px;
+
+/* ================================
+   HEADER
+   ================================ */
+
+.gci-header {
+    padding: 10px 0 30px 0;
+}
+
+.gci-eyebrow {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.gci-title {
+    font-size: 44px;
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: #0f172a;
+}
+
+.gci-subtitle {
+    color: #64748b;
+    font-size: 17px;
+    margin-top: 10px;
+    max-width: 800px;
+}
+
+
+/* ================================
+   STATUS BADGE
+   ================================ */
+
+.gci-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.gci-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+}
+
+
+/* ================================
+   PLOTLY
+   ================================ */
+
+.js-plotly-plot {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+
+/* ================================
+   FOOTER
+   ================================ */
+
+.gci-footer {
+    margin-top: 60px;
+    padding-top: 25px;
+    border-top: 1px solid #e2e8f0;
+    color: #94a3b8;
+    font-size: 12px;
 }
 
 </style>
 """, unsafe_allow_html=True)
-
 
 # =========================================================
 # DATA LOADING
@@ -209,272 +404,379 @@ st.sidebar.caption(
 
 if page == "Overview":
 
-    st.title("Global Conflict Early-Warning System")
+    # =====================================================
+    # HERO
+    # =====================================================
+
+    st.caption("GLOBAL CONFLICT EARLY-WARNING SYSTEM")
+
+    st.title("Monitoring conflict escalation risk worldwide.")
 
     st.markdown(
-        "### Machine Learning for Conflict Escalation Risk Assessment"
+        "A country-month machine-learning framework estimating "
+        "the probability of major conflict escalation within "
+        "the following six months."
     )
 
-    st.markdown("""
-    A country-month machine-learning system that estimates the
-    probability of major conflict escalation within the following
-    six months using historical conflict dynamics and country-level
-    socioeconomic indicators.
-    """)
 
     st.divider()
 
-    # =====================================================
-    # KEY RESULTS
-    # =====================================================
-
-    st.subheader("Model at a Glance")
+    st.subheader("Model performance")
 
     c1, c2, c3, c4, c5 = st.columns(5)
 
-    c1.metric(
-        "ROC-AUC",
-        f"{ROC_GB:.3f}"
-    )
+    with c1:
+        st.metric("ROC-AUC", f"{ROC_GB:.3f}")
 
-    c2.metric(
-        "PR-AUC",
-        f"{PR_GB:.3f}"
-    )
+    with c2:
+        st.metric("PR-AUC", f"{PR_GB:.3f}")
 
-    c3.metric(
-        "Brier Score",
-        f"{BRIER:.3f}"
-    )
+    with c3:
+        st.metric("Brier Score", f"{BRIER:.3f}")
 
-    c4.metric(
-        "PR-AUC Lift",
-        f"{PR_LIFT:.2f}×"
-    )
+    with c4:
+        st.metric("PR-AUC Lift", f"{PR_LIFT:.2f}×")
 
-    c5.metric(
-        "Major Escalations",
-        f"{TOTAL_EVENTS:,}"
-    )
+    with c5:
+        st.metric("Major Escalations", f"{TOTAL_EVENTS:,}")
 
     st.divider()
 
     # =====================================================
-    # WHAT THE MODEL DOES
+    # WHAT THE SYSTEM DOES
     # =====================================================
 
-    st.subheader("What the model does")
+    st.markdown("## What does the system do?")
 
-    st.markdown("""
-    The dataset is structured at the **country-month level**.
+    st.markdown("**From historical conflict data to six-month escalation risk.**")
 
-    For each country and month, the model uses information available
-    at that point in time to estimate the probability that a major
-    conflict escalation will occur during the following six months.
+    st.write(
+        "The system operates at the **country-month** level. "
+        "For each observation, only information available at that "
+        "point in time is used to estimate the probability of a "
+        "major conflict escalation during the following six months."
+    )
 
-    The output is a probability rather than a simple yes/no prediction.
-    This allows observations to be ranked by risk and different
-    operational thresholds to be applied depending on the balance
-    between false alarms and missed escalations.
-    """)
+    st.write(
+        "The result is a continuous probability rather than a binary "
+        "prediction. This allows countries to be ranked by relative "
+        "risk and different alert thresholds to be applied depending "
+        "on the desired balance between missed events and false alarms."
+    )
 
     # =====================================================
-    # DATA AND MODELLING
+    # DATA + MODEL
     # =====================================================
 
-    st.subheader("Data and Modelling")
+    st.markdown("## Data & modelling")
 
     col1, col2 = st.columns(2)
 
     with col1:
 
-        st.markdown("#### Data & Feature Engineering")
+        st.markdown(
+            """
+            <div class="info-box">
 
-        st.markdown("""
-        The model combines historical conflict information with
-        socioeconomic and demographic indicators.
+            <div class="gci-eyebrow">
+                DATA & FEATURE ENGINEERING
+            </div>
 
-        Key features include:
+            <h3>Historical conflict dynamics</h3>
 
-        - Lagged conflict indicators
-        - Rolling measures of conflict fatalities
-        - Recent conflict dynamics
-        - Regime-change indicators
-        - GDP per capita
-        - External socioeconomic variables
-        """)
+            <p style="color:#64748b;">
+            The model combines conflict history with country-level
+            socioeconomic and political information.
+            </p>
+
+            <ul>
+                <li>Lagged conflict indicators</li>
+                <li>Rolling fatality measures</li>
+                <li>Recent conflict dynamics</li>
+                <li>Regime-change indicators</li>
+                <li>GDP per capita</li>
+                <li>External socioeconomic variables</li>
+            </ul>
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     with col2:
 
-        st.markdown("#### Machine Learning")
+        st.markdown(
+            """
+            <div class="info-box">
 
-        st.markdown("""
-        The primary model is a **Gradient Boosting Classifier**.
+            <div class="gci-eyebrow">
+                MACHINE LEARNING
+            </div>
 
-        **Logistic Regression** is used as a simpler benchmark to
-        evaluate whether the nonlinear model provides additional
-        predictive value.
+            <h3>Gradient Boosting Classifier</h3>
 
-        The model produces a continuous probability score that can
-        subsequently be used for risk ranking and early-warning alerts.
-        """)
+            <p style="color:#64748b;">
+            The primary nonlinear model is compared against a
+            simpler Logistic Regression benchmark.
+            </p>
 
-    st.divider()
+            <p style="color:#64748b;">
+            The model produces continuous probability estimates
+            that can be used for risk ranking and operational
+            early-warning alerts.
+            </p>
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     # =====================================================
     # TEMPORAL VALIDATION
     # =====================================================
 
-    st.subheader("Out-of-Sample Validation")
+    st.markdown("## Out-of-sample validation")
 
-    st.markdown("""
-    The model is evaluated using a chronological train-test split.
+    v1, v2 = st.columns([2, 1])
 
-    **Training period:** 1989–2019  
-    **Test period:** 2020–2025
+    with v1:
 
-    A temporal split is used because the intended application is
-    prospective. A random split could allow observations from later
-    periods to influence model development and produce an overly
-    optimistic estimate of performance.
-    """)
+        st.markdown(
+            """
+            <div class="info-box">
+
+            <div class="gci-eyebrow">
+                CHRONOLOGICAL VALIDATION
+            </div>
+
+            <h3>Testing the model in the future, not the past</h3>
+
+            <p style="color:#64748b;">
+            The system uses a chronological train-test split.
+            This reflects the intended prospective use of the
+            model and prevents observations from later periods
+            from influencing model development.
+            </p>
+
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with v2:
+
+        st.metric(
+            "TRAINING",
+            "1989–2019"
+        )
+
+        st.metric(
+            "OUT-OF-SAMPLE",
+            "2020–2025"
+        )
+
+    st.divider()
+
+    # =====================================================
+    # MODEL VALIDATION
+    # =====================================================
+
+    st.markdown("## Model validation")
+
+    st.markdown(
+        "Out-of-sample performance on the 2020–2025 validation period."
+    )
 
     validation_col1, validation_col2 = st.columns(2)
 
     with validation_col1:
 
-        st.markdown("#### Gradient Boosting")
-
-        st.metric(
-            "ROC-AUC",
-            f"{ROC_GB:.3f}"
+        st.markdown(
+            """
+            <div class="info-box">
+                <div class="gci-eyebrow">PRIMARY MODEL</div>
+                <h3 style="margin:0;">Gradient Boosting</h3>
+                <p style="color:#64748b;">
+                    Nonlinear model used for the main six-month
+                    escalation risk estimates.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
-        st.metric(
-            "PR-AUC",
-            f"{PR_GB:.3f}"
-        )
+        m1, m2 = st.columns(2)
+
+        with m1:
+            st.metric("ROC-AUC", f"{ROC_GB:.3f}")
+
+        with m2:
+            st.metric("PR-AUC", f"{PR_GB:.3f}")
+
 
     with validation_col2:
 
-        st.markdown("#### Logistic Regression Benchmark")
-
-        st.metric(
-            "ROC-AUC",
-            f"{ROC_LR:.3f}"
+        st.markdown(
+            """
+            <div class="info-box">
+                <div class="gci-eyebrow">BENCHMARK</div>
+                <h3 style="margin:0;">Logistic Regression</h3>
+                <p style="color:#64748b;">
+                    Simpler benchmark used to assess the incremental
+                    value of the nonlinear model.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
-        st.markdown("""
-        The Gradient Boosting model provides stronger out-of-sample
-        discrimination than the simpler benchmark.
-        """)
+        st.metric("ROC-AUC", f"{ROC_LR:.3f}")
 
     st.divider()
 
-    # =====================================================
-    # EARLY WARNING
-    # =====================================================
 
-    st.subheader("From Prediction to Early Warning")
+    # =========================================================
+    # OPERATIONAL EARLY WARNING
+    # =========================================================
 
-    st.markdown("""
-    The model produces continuous risk scores. These scores can be
-    converted into operational alerts using different thresholds.
+    st.markdown("## From prediction to early warning")
 
-    The dashboard provides two operational modes:
-    """)
+    st.markdown(
+        "Continuous risk probabilities can be converted into "
+        "different operational alert levels."
+    )
 
     ew1, ew2 = st.columns(2)
 
     with ew1:
 
-        st.markdown("#### Conservative Mode")
-
-        st.metric(
-            "Threshold",
-            "0.50"
+        st.markdown(
+            """
+            <div class="info-box">
+                <div class="gci-eyebrow">CONSERVATIVE MODE</div>
+                <h3 style="margin:0;">Fewer alerts</h3>
+                <p style="color:#64748b;">
+                    Designed to prioritize precision and limit
+                    false alarms.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
-        st.caption(
-            "Fewer alerts with greater emphasis on precision."
-        )
+        st.metric("Alert threshold", "0.50")
+
 
     with ew2:
 
-        st.markdown("#### Early-Warning Mode")
-
-        st.metric(
-            "Threshold",
-            "0.20"
+        st.markdown(
+            """
+            <div class="info-box">
+                <div class="gci-eyebrow">EARLY-WARNING MODE</div>
+                <h3 style="margin:0;">Higher sensitivity</h3>
+                <p style="color:#64748b;">
+                    Designed to identify a larger share of potential
+                    escalations at the cost of additional alerts.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
-        st.caption(
-            "More alerts with greater emphasis on recall."
-        )
+        st.metric("Alert threshold", "0.20")
 
     st.divider()
 
-    # =====================================================
-    # DASHBOARD SECTIONS
-    # =====================================================
 
-    st.subheader("Explore the System")
+    # =========================================================
+    # EXPLORE THE SYSTEM
+    # =========================================================
+
+    st.markdown("## Explore the system")
 
     e1, e2, e3 = st.columns(3)
 
     with e1:
 
-        st.markdown("### 🌍 Risk Monitor")
-
-        st.write(
-            "Explore predicted conflict risk, early-warning alerts, "
-            "five-year scenario projections and observed conflict intensity."
+        st.markdown(
+            """
+            <div class="info-box">
+                <div style="font-size:28px;">🌍</div>
+                <h3>Risk Monitor</h3>
+                <p style="color:#64748b;">
+                    Explore country-level risk, warning alerts,
+                    observed conflict intensity and scenario projections.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
+
 
     with e2:
 
-        st.markdown("### 📊 Model Performance")
-
-        st.write(
-            "Examine ROC-AUC, PR-AUC, calibration, temporal stability, "
-            "feature importance and model comparisons."
+        st.markdown(
+            """
+            <div class="info-box">
+                <div style="font-size:28px;">📊</div>
+                <h3>Model Performance</h3>
+                <p style="color:#64748b;">
+                    Examine discrimination, calibration,
+                    thresholds and model comparisons.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
+
 
     with e3:
 
-        st.markdown("### ⚠️ Early Warning")
-
-        st.write(
-            "Evaluate how effectively the model concentrates observed "
-            "escalations among the highest-risk observations."
+        st.markdown(
+            """
+            <div class="info-box">
+                <div style="font-size:28px;">⚠️</div>
+                <h3>Early Warning</h3>
+                <p style="color:#64748b;">
+                    Assess how effectively predicted risk
+                    concentrates subsequent escalation events.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
     st.divider()
 
-    # =====================================================
+
+    # =========================================================
     # INTERPRETATION
-    # =====================================================
+    # =========================================================
 
-    st.subheader("How should the results be interpreted?")
+    st.markdown("## Interpreting the results")
 
-    st.info("""
-    This system is an analytical early-warning and decision-support
-    framework, not an autonomous conflict prediction engine.
+    st.markdown(
+        "**This is an analytical early-warning system, not an "
+        "autonomous conflict prediction engine.**"
+    )
 
-    Predicted probabilities represent statistical risk estimates based
-    on historical relationships. A high-risk score does not mean that
-    an escalation will necessarily occur, while a low score does not
-    guarantee that escalation will not occur.
+    st.write(
+        "Predicted probabilities represent statistical estimates "
+        "based on historical relationships. A high-risk score does "
+        "not mean that escalation will necessarily occur, while a "
+        "low-risk score does not guarantee that escalation will not occur."
+    )
 
-    The results should therefore be considered alongside geopolitical
-    analysis, expert assessment and other relevant information.
-    """)
+    st.write(
+        "Results should therefore be interpreted alongside geopolitical "
+        "analysis, expert assessment and other relevant information."
+    )
 
-    # =====================================================
+    # =========================================================
     # PROJECT SCOPE
-    # =====================================================
+    # =========================================================
 
-    st.subheader("Project Scope")
+    st.markdown("## Project scope")
 
     scope_data = pd.DataFrame({
         "Component": [
@@ -505,6 +807,20 @@ if page == "Overview":
         hide_index=True
     )
 
+
+    # =========================================================
+    # FOOTER
+    # =========================================================
+
+    st.markdown(
+        """
+        <div class="gci-footer">
+            Global Conflict Early-Warning System · Statistical research
+            and decision-support framework · 1989–2025
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 # =========================================================
 # RISK MONITOR
 # =========================================================
@@ -514,21 +830,96 @@ elif page == "Risk Monitor":
     st.title("Global Risk Monitor")
 
     st.markdown(
-        """
-        Explore predicted conflict escalation risk, operational
-        early-warning signals, long-term scenario projections,
-        and observed conflict intensity.
-        """
+        "Monitor current conflict escalation risk, early-warning "
+        "signals, scenario projections and observed conflict intensity."
     )
 
     st.divider()
 
-    # -----------------------------------------------------
+    # =====================================================
+    # CURRENT RISK SNAPSHOT
+    # =====================================================
+
+    current = risk.copy()
+
+    latest_date = current["month"].max()
+
+    current = current[
+        current["month"] == latest_date
+    ].copy()
+
+    current["country_plot"] = (
+        current["country"]
+        .replace({
+            "Yemen (North Yemen)": "Yemen",
+            "Russia (Soviet Union)": "Russia",
+            "Myanmar (Burma)": "Myanmar",
+            "DR Congo (Zaire)":
+                "Democratic Republic of the Congo"
+        })
+    )
+
+    current["alert"] = (
+        current["predicted_risk"] >= 0.20
+    )
+
+    total_countries = len(current)
+
+    alert_count = int(
+        current["alert"].sum()
+    )
+
+    mean_risk = current[
+        "predicted_risk"
+    ].mean()
+
+    highest_risk = current[
+        "predicted_risk"
+    ].max()
+
+    # =====================================================
+    # SNAPSHOT METRICS
+    # =====================================================
+
+    st.subheader("Current risk snapshot")
+
+    m1, m2, m3, m4 = st.columns(4)
+
+    m1.metric(
+        "Countries monitored",
+        f"{total_countries:,}"
+    )
+
+    m2.metric(
+        "Early-warning alerts",
+        f"{alert_count:,}"
+    )
+
+    m3.metric(
+        "Average predicted risk",
+        f"{mean_risk:.1%}"
+    )
+
+    m4.metric(
+        "Highest predicted risk",
+        f"{highest_risk:.1%}"
+    )
+
+    st.caption(
+        f"Latest available observation: "
+        f"{latest_date.strftime('%B %Y')}"
+    )
+
+    st.divider()
+
+    # =====================================================
     # MAP SELECTOR
-    # -----------------------------------------------------
+    # =====================================================
+
+    st.subheader("Risk maps")
 
     map_type = st.radio(
-        "Select map",
+        "Select view",
         [
             "Global Conflict Risk",
             "6-Month Early-Warning Risk",
@@ -540,39 +931,19 @@ elif page == "Risk Monitor":
 
     st.divider()
 
-        # =====================================================
+    # =====================================================
     # 1. GLOBAL CONFLICT RISK
     # =====================================================
 
     if map_type == "Global Conflict Risk":
 
-        st.subheader("Global Conflict Risk")
-
         st.markdown(
-            """
-            **Predicted probability of major conflict escalation
-            within the following six months.**
-            """
+            "### Global Conflict Risk"
         )
 
-        current = risk.copy()
-
-        # Latest available observation
-        latest_date = current["month"].max()
-
-        current = current[
-            current["month"] == latest_date
-        ].copy()
-
-        current["country_plot"] = (
-            current["country"]
-            .replace({
-                "Yemen (North Yemen)": "Yemen",
-                "Russia (Soviet Union)": "Russia",
-                "Myanmar (Burma)": "Myanmar",
-                "DR Congo (Zaire)":
-                    "Democratic Republic of the Congo"
-            })
+        st.write(
+            "Predicted probability of major conflict escalation "
+            "within the following six months."
         )
 
         fig = px.choropleth(
@@ -605,29 +976,24 @@ elif page == "Risk Monitor":
         )
 
         st.caption(
-            f"Latest available observation: "
-            f"{latest_date.strftime('%B %Y')}"
+            "Higher values indicate higher estimated probability "
+            "of major escalation within six months."
         )
+
     # =====================================================
     # 2. EARLY WARNING
     # =====================================================
 
     elif map_type == "6-Month Early-Warning Risk":
 
-        st.subheader(
-            "6-Month Early-Warning Risk"
-        )
-
         st.markdown(
-            """
-            The model produces a continuous six-month escalation risk score.
-            The 0.20 operational threshold converts this score into an
-            early-warning signal: countries at or above the threshold are
-            flagged for further analytical attention.
-            """
+            "### 6-Month Early-Warning Risk"
         )
 
-        current = risk.copy()
+        st.write(
+            "Countries with predicted risk at or above 0.20 "
+            "are flagged for further analytical attention."
+        )
 
         current["alert_status"] = np.where(
             current["predicted_risk"] >= 0.20,
@@ -637,7 +1003,7 @@ elif page == "Risk Monitor":
 
         fig = px.choropleth(
             current,
-            locations="country",
+            locations="country_plot",
             locationmode="country names",
             color="alert_status",
             hover_name="country",
@@ -674,33 +1040,50 @@ elif page == "Risk Monitor":
             )
         )
 
-        st.subheader("Current Early-Warning Alerts")
+        st.subheader(
+            "Current early-warning alerts"
+        )
 
-        st.dataframe(
-            alerts[
+        if len(alerts) > 0:
+
+            alert_table = alerts[
                 [
                     "country",
                     "predicted_risk"
                 ]
-            ].head(20),
-            use_container_width=True,
-            hide_index=True
-        )
+            ].head(20).copy()
+
+            alert_table["predicted_risk"] = (
+                alert_table["predicted_risk"]
+                .map(lambda x: f"{x:.1%}")
+            )
+
+            st.dataframe(
+                alert_table,
+                use_container_width=True,
+                hide_index=True
+            )
+
+        else:
+
+            st.success(
+                "No countries currently exceed the 0.20 "
+                "early-warning threshold."
+            )
+
     # =====================================================
     # 3. FIVE YEAR PROJECTION
     # =====================================================
 
     elif map_type == "Five-Year Conflict Risk Projection":
 
-        st.subheader(
-            "Five-Year Conflict Risk Projection"
+        st.markdown(
+            "### Five-Year Conflict Risk Projection"
         )
 
-        st.markdown(
-            """
-            **Baseline scenario for 2026–2030 assuming that the
-            latest observed country-level conditions remain constant.**
-            """
+        st.write(
+            "Baseline scenario for 2026–2030 assuming that "
+            "latest observed country-level conditions remain constant."
         )
 
         st.components.v1.html(
@@ -716,30 +1099,24 @@ elif page == "Risk Monitor":
             "Scenario analysis rather than a literal forecast. "
             "The projection assumes constant underlying conditions."
         )
+
     # =====================================================
     # 4. OBSERVED CONFLICT INTENSITY
     # =====================================================
 
     elif map_type == "Observed Conflict Intensity":
 
-        st.subheader(
-            "Observed Conflict Intensity"
+        st.markdown(
+            "### Observed Conflict Intensity"
         )
 
-        st.markdown(
-            """
-            Recorded conflict intensity measured using
-            **fatalities per 100,000 inhabitants**.
-
-            A logarithmic colour scale is used to make differences
-            between low and high-intensity observations visible.
-            """
+        st.write(
+            "Recorded conflict intensity measured using "
+            "**fatalities per 100,000 inhabitants**."
         )
 
         observed = risk.copy()
 
-        # Log transformation only for visualisation.
-        # Original fatalities_per_100k remains unchanged.
         observed["intensity_log"] = np.log1p(
             observed["fatalities_per_100k"].clip(lower=0)
         )
@@ -750,19 +1127,10 @@ elif page == "Risk Monitor":
             locationmode="country names",
             color="intensity_log",
             hover_name="country",
-            color_continuous_scale=[
-                [0.00, "#ffffff"],
-                [0.02, "#fff5f5"],
-                [0.10, "#fee2e2"],
-                [0.25, "#fecaca"],
-                [0.50, "#fca5a5"],
-                [0.75, "#f87171"],
-                [1.00, "#b91c1c"]
-            ], 
-            range_color=[0,3],   
+            color_continuous_scale="Reds",
             projection="natural earth",
             labels={
-                "fatalities_per_100k": "Fatalities per 100k"
+                "intensity_log": "Conflict intensity"
             },
             hover_data={
                 "fatalities_per_100k": ":.2f"
@@ -785,8 +1153,8 @@ elif page == "Risk Monitor":
         )
 
         st.caption(
-            "Colour intensity uses a logarithmic transformation for "
-            "visualisation; values shown in the tooltip are the original "
+            "Colour intensity uses a logarithmic transformation "
+            "for visualisation. Tooltip values show the original "
             "fatalities per 100,000 inhabitants."
         )
 
@@ -799,41 +1167,48 @@ elif page == "Model Performance":
     st.title("Model Performance")
 
     st.markdown(
-        """
-        Out-of-sample evaluation of the conflict escalation model.
-        The model is trained on **1989–2019** and evaluated on
-        previously unseen observations from **2020–2025**.
-        """
+        "Out-of-sample evaluation of the conflict escalation model. "
+        "The model is trained on **1989–2019** and evaluated on "
+        "previously unseen observations from **2020–2025**."
     )
 
     st.divider()
 
     # =====================================================
-    # PERFORMANCE AT A GLANCE
+    # PERFORMANCE SNAPSHOT
     # =====================================================
 
-    st.subheader("Performance at a Glance")
+    st.subheader("Performance snapshot")
 
-    c1, c2, c3, c4 = st.columns(4)
+    c1, c2, c3, c4, c5 = st.columns(5)
 
     c1.metric(
-        "Gradient Boosting ROC-AUC",
+        "GB ROC-AUC",
         f"{ROC_GB:.3f}"
     )
 
     c2.metric(
-        "Gradient Boosting PR-AUC",
+        "GB PR-AUC",
         f"{PR_GB:.3f}"
     )
 
     c3.metric(
-        "Logistic Regression ROC-AUC",
+        "LR ROC-AUC",
         f"{ROC_LR:.3f}"
     )
 
     c4.metric(
+        "PR-AUC Lift",
+        f"{PR_LIFT:.2f}×"
+    )
+
+    c5.metric(
         "Brier Score",
         f"{BRIER:.3f}"
+    )
+
+    st.caption(
+        "All metrics are calculated on the 2020–2025 out-of-sample period."
     )
 
     st.divider()
@@ -842,14 +1217,12 @@ elif page == "Model Performance":
     # MODEL COMPARISON
     # =====================================================
 
-    st.subheader("Model Comparison")
+    st.subheader("Model comparison")
 
-    st.markdown(
-        """
-        The Gradient Boosting model is compared with Logistic Regression
-        as a simpler benchmark. Both models are evaluated on the same
-        out-of-sample period.
-        """
+    st.write(
+        "Gradient Boosting is compared with Logistic Regression as "
+        "a simpler benchmark. Both models are evaluated on the same "
+        "out-of-sample observations."
     )
 
     comparison = pd.DataFrame({
@@ -867,8 +1240,7 @@ elif page == "Model Performance":
         comparison,
         x="Model",
         y="ROC-AUC",
-        text="ROC-AUC",
-        title="Out-of-Sample ROC-AUC"
+        text="ROC-AUC"
     )
 
     fig.update_traces(
@@ -879,7 +1251,13 @@ elif page == "Model Performance":
     fig.update_layout(
         yaxis_range=[0, 1],
         height=450,
-        showlegend=False
+        showlegend=False,
+        margin=dict(
+            l=20,
+            r=20,
+            t=30,
+            b=20
+        )
     )
 
     st.plotly_chart(
@@ -887,69 +1265,59 @@ elif page == "Model Performance":
         use_container_width=True
     )
 
-    st.markdown(
-        f"""
-        The Gradient Boosting model achieves a ROC-AUC of
-        **{ROC_GB:.3f}**, compared with **{ROC_LR:.3f}**
-        for the Logistic Regression benchmark.
-
-        This indicates stronger out-of-sample discrimination between
-        country-month observations that subsequently experience major
-        escalation and those that do not.
-        """
-    )
-
-    # =====================================================
-    # PRECISION-RECALL PERFORMANCE
-    # =====================================================
-
-    st.subheader("Precision-Recall Performance")
-
-    st.markdown(
-        f"""
-        Because major escalation events are relatively rare,
-        PR-AUC provides an important complementary measure of model
-        performance. The model achieves a PR-AUC of **{PR_GB:.3f}**,
-        compared with an event-prevalence baseline of **{BASELINE_PR:.3f}**.
-        """
-    )
-
-    c1, c2 = st.columns(2)
-
-    c1.metric(
-        "PR-AUC",
-        f"{PR_GB:.3f}"
-    )
-
-    c2.metric(
-        "PR-AUC Lift over Baseline",
-        f"{PR_LIFT:.2f}×"
-    )
-
-    st.info(
-        f"""
-        The model's PR-AUC is approximately **{PR_LIFT:.2f}×**
-        the event-prevalence baseline. This indicates that the model
-        is substantially better than a prevalence-based ranking at
-        concentrating escalation events among higher-risk observations.
-        """
+    st.write(
+        f"The Gradient Boosting model achieves a ROC-AUC of "
+        f"**{ROC_GB:.3f}**, compared with **{ROC_LR:.3f}** for "
+        f"Logistic Regression."
     )
 
     st.divider()
 
     # =====================================================
-    # PROBABILITY CALIBRATION
+    # PRECISION-RECALL
     # =====================================================
 
-    st.subheader("Probability Calibration")
+    st.subheader("Precision-recall performance")
 
-    st.markdown(
-        """
-        Calibration evaluates whether predicted probabilities correspond
-        to the observed frequency of escalation events. A well-calibrated
-        model should produce probabilities that broadly match the
-        empirical frequency of events.
-        """
+    pr1, pr2 = st.columns([2, 1])
+
+    with pr1:
+
+        st.write(
+            "Because major escalation events are relatively rare, "
+            "PR-AUC provides an important complementary measure of "
+            "performance."
+        )
+
+        st.write(
+            f"The model achieves a PR-AUC of **{PR_GB:.3f}**, "
+            f"against an event-prevalence baseline of "
+            f"**{BASELINE_PR:.3f}**."
+        )
+
+    with pr2:
+
+        st.metric(
+            "PR-AUC",
+            f"{PR_GB:.3f}"
+        )
+
+        st.metric(
+            "Lift over baseline",
+            f"{PR_LIFT:.2f}×"
+        )
+
+    st.divider()
+
+    # =====================================================
+    # CALIBRATION
+    # =====================================================
+
+    st.subheader("Probability calibration")
+
+    st.write(
+        "Calibration evaluates whether predicted probabilities "
+        "correspond to the observed frequency of escalation events."
     )
 
     if len(calibration.columns) >= 2:
@@ -961,8 +1329,7 @@ elif page == "Model Performance":
             calibration,
             x=x_col,
             y=y_col,
-            markers=True,
-            title="Predicted vs Observed Escalation Frequency"
+            markers=True
         )
 
         fig.add_shape(
@@ -978,8 +1345,14 @@ elif page == "Model Performance":
 
         fig.update_layout(
             height=500,
-            xaxis_title="Predicted Probability",
-            yaxis_title="Observed Frequency"
+            xaxis_title="Predicted probability",
+            yaxis_title="Observed frequency",
+            margin=dict(
+                l=20,
+                r=20,
+                t=30,
+                b=20
+            )
         )
 
         st.plotly_chart(
@@ -987,29 +1360,35 @@ elif page == "Model Performance":
             use_container_width=True
         )
 
-    c1, c2, c3 = st.columns(3)
-
-    c1.metric(
-        "Brier Score",
-        f"{BRIER:.3f}"
+    st.caption(
+        f"Brier Score: {BRIER:.3f}. Lower values indicate better "
+        "probabilistic accuracy."
     )
 
-    c2.metric(
-        "Event Prevalence / PR-AUC Baseline",
-        f"{BASELINE_PR:.3f}"
+    st.divider()
+
+    # =====================================================
+    # INTERPRETATION
+    # =====================================================
+
+    st.subheader("How to interpret these results")
+
+    st.write(
+        f"The Gradient Boosting model provides stronger out-of-sample "
+        f"discrimination than the Logistic Regression benchmark "
+        f"({ROC_GB:.3f} vs {ROC_LR:.3f} ROC-AUC)."
     )
 
-    c3.metric(
-        "PR-AUC Lift",
-        f"{PR_LIFT:.2f}×"
+    st.write(
+        f"The PR-AUC is {PR_LIFT:.2f}× the event-prevalence baseline, "
+        "indicating that the model concentrates a larger share of "
+        "subsequent escalation events among higher-risk observations."
     )
 
-    st.markdown(
-        f"""
-        The model achieves a Brier Score of **{BRIER:.3f}**,
-        providing a measure of probabilistic accuracy alongside
-        its discrimination performance.
-        """
+    st.write(
+        "These metrics evaluate statistical performance on previously "
+        "unseen observations. They do not imply that individual "
+        "escalation events can be predicted with certainty."
     )
 
 # =========================================================
@@ -1021,59 +1400,48 @@ elif page == "Early Warning":
     st.title("Early-Warning Analytics")
 
     st.markdown(
-        """
-        The model can be used as a ranking system to concentrate
-        analytical attention on the country-month observations with
-        the highest predicted escalation risk.
-
-        The objective is not to eliminate false alarms, but to provide
-        a systematic way of prioritising observations when analytical
-        resources are limited.
-        """
+        "The model can be used to prioritise country-month observations "
+        "according to their estimated probability of major conflict "
+        "escalation within six months."
     )
 
     st.divider()
 
     # =====================================================
-    # OPERATIONAL THRESHOLDS
+    # OPERATIONAL MODES
     # =====================================================
 
-    st.subheader("Operational Thresholds")
+    st.subheader("Operational alert modes")
 
     c1, c2 = st.columns(2)
 
-    c1.metric(
-        "Early-Warning Threshold",
-        "0.20"
-    )
+    with c1:
 
-    c2.metric(
-        "Conservative Threshold",
-        "0.50"
-    )
+        st.metric(
+            "Early-Warning Mode",
+            "0.20"
+        )
 
-    st.markdown(
-        """
-        The model produces a continuous probability score rather than
-        a binary prediction. Operational thresholds translate this
-        score into an alert that can be used for monitoring and
-        prioritisation.
+        st.write(
+            "Designed to favour recall. More observations are flagged "
+            "in order to reduce the risk of missing potential escalations."
+        )
 
-        The **0.20 early-warning threshold** is designed to favour
-        recall. Country-month observations with an estimated escalation
-        probability of at least 20% are flagged for further analytical
-        attention. This produces more alerts and false positives, but
-        allows the system to detect a larger share of subsequent
-        escalation events.
+    with c2:
 
-        The **0.50 conservative threshold** is considerably more
-        selective. It generates fewer alerts and places greater emphasis
-        on precision, but at the cost of missing a larger share of
-        escalation events.
+        st.metric(
+            "Conservative Mode",
+            "0.50"
+        )
 
-        The choice of threshold therefore depends on the operational
-        cost of false warnings relative to missed escalations.
-        """
+        st.write(
+            "More selective alerting with greater emphasis on precision "
+            "and fewer observations requiring investigation."
+        )
+
+    st.caption(
+        "Threshold selection reflects the operational trade-off between "
+        "false alarms and missed escalation events."
     )
 
     st.divider()
@@ -1082,42 +1450,11 @@ elif page == "Early Warning":
     # THRESHOLD PERFORMANCE
     # =====================================================
 
-    st.subheader("Threshold Performance")
+    st.subheader("Threshold performance")
 
     if len(threshold) > 0:
 
         display_threshold = threshold.copy()
-
-        # -------------------------------------------------
-        # TABLE
-        # -------------------------------------------------
-
-        st.dataframe(
-            display_threshold,
-            use_container_width=True,
-            hide_index=True
-        )
-
-        st.markdown(
-            """
-            The threshold comparison shows how model performance changes
-            as the alert threshold is adjusted.
-
-            Lower thresholds increase the number of observations flagged
-            and generally improve recall, allowing the system to detect
-            more escalation events. Higher thresholds produce fewer,
-            more selective alerts and generally favour precision.
-
-            The **0.20 threshold is used as the default early-warning
-            setting** in this dashboard because the primary objective is
-            to identify potential escalations early rather than to produce
-            highly selective final classifications.
-            """
-        )
-
-        # -------------------------------------------------
-        # THRESHOLD PERFORMANCE CHART
-        # -------------------------------------------------
 
         metric_columns = [
             col for col in
@@ -1134,8 +1471,7 @@ elif page == "Early Warning":
                 display_threshold,
                 x="threshold",
                 y=metric_columns,
-                markers=True,
-                title="Performance Across Alert Thresholds"
+                markers=True
             )
 
             fig.add_vline(
@@ -1154,9 +1490,15 @@ elif page == "Early Warning":
 
             fig.update_layout(
                 height=500,
-                xaxis_title="Alert Threshold",
+                xaxis_title="Alert threshold",
                 yaxis_title="Score",
-                yaxis_range=[0, 1]
+                yaxis_range=[0, 1],
+                margin=dict(
+                    l=20,
+                    r=20,
+                    t=30,
+                    b=20
+                )
             )
 
             st.plotly_chart(
@@ -1164,26 +1506,19 @@ elif page == "Early Warning":
                 use_container_width=True
             )
 
+        st.write(
+            "Lower thresholds increase recall by flagging more "
+            "observations. Higher thresholds produce fewer and more "
+            "selective alerts."
+        )
+
     st.divider()
 
     # =====================================================
-    # PRECISION-RECALL TRADE-OFF
+    # PRECISION / RECALL
     # =====================================================
 
-    st.subheader("Precision–Recall Trade-off")
-
-    st.markdown(
-        """
-        Precision and recall respond differently as the alert threshold
-        changes. A higher threshold produces fewer, more selective
-        alerts, while a lower threshold increases coverage of potential
-        escalation events.
-
-        This trade-off is central to an early-warning system: prioritising
-        recall reduces the risk of missing an escalation, while prioritising
-        precision reduces the number of false alarms requiring investigation.
-        """
-    )
+    st.subheader("Precision–recall trade-off")
 
     if (
         "threshold" in threshold.columns
@@ -1195,29 +1530,34 @@ elif page == "Early Warning":
             threshold,
             x="threshold",
             y=["precision", "recall"],
-            markers=True,
-            title="Precision vs Recall Across Alert Thresholds"
+            markers=True
         )
 
         fig.add_vline(
             x=0.20,
             line_dash="dash",
-            annotation_text="Early-warning: 0.20",
+            annotation_text="0.20",
             annotation_position="top"
         )
 
         fig.add_vline(
             x=0.50,
             line_dash="dot",
-            annotation_text="Conservative: 0.50",
+            annotation_text="0.50",
             annotation_position="bottom"
         )
 
         fig.update_layout(
             height=500,
-            xaxis_title="Alert Threshold",
+            xaxis_title="Alert threshold",
             yaxis_title="Score",
-            yaxis_range=[0, 1]
+            yaxis_range=[0, 1],
+            margin=dict(
+                l=20,
+                r=20,
+                t=30,
+                b=20
+            )
         )
 
         st.plotly_chart(
@@ -1225,29 +1565,26 @@ elif page == "Early Warning":
             use_container_width=True
         )
 
+    st.write(
+        "A recall-oriented system accepts more false alarms in exchange "
+        "for capturing a larger share of subsequent escalation events. "
+        "A precision-oriented system reduces the number of alerts but "
+        "risks missing more events."
+    )
+
     st.divider()
 
     # =====================================================
-    # RISK RANKING
+    # RISK CONCENTRATION
     # =====================================================
 
-    st.subheader("Risk Ranking")
+    st.subheader("Risk concentration")
 
-    st.markdown(
-        """
-        The ranking analysis evaluates how effectively the model
-        concentrates observed escalation events within the highest-risk
-        country-month observations.
-
-        This is particularly relevant for early-warning applications,
-        where analysts may not have the resources to investigate every
-        observation equally and need to prioritise a smaller set of cases.
-        """
+    st.write(
+        "The ranking analysis measures how effectively the model "
+        "concentrates observed escalation events within the highest-risk "
+        "country-month observations."
     )
-
-    # -----------------------------------------------------
-    # TOP-RISK POPULATIONS
-    # -----------------------------------------------------
 
     ranking = pd.DataFrame({
         "Risk-ranked population": [
@@ -1287,72 +1624,77 @@ elif page == "Early Warning":
         ]
     })
 
-    st.dataframe(
-        ranking.style.format({
-            "Precision": "{:.1%}",
-            "Recall": "{:.1%}"
-        }),
-        use_container_width=True,
-        hide_index=True
-    )
+    r1, r2 = st.columns([1, 2])
 
+    with r1:
+
+        st.dataframe(
+            ranking.style.format({
+                "Precision": "{:.1%}",
+                "Recall": "{:.1%}"
+            }),
+            use_container_width=True,
+            hide_index=True
+        )
+
+    with r2:
+
+        fig = px.bar(
+            ranking,
+            x="Risk-ranked population",
+            y="Recall",
+            text="Recall"
+        )
+
+        fig.update_traces(
+            texttemplate="%{text:.1%}",
+            textposition="outside"
+        )
+
+        fig.update_layout(
+            height=400,
+            xaxis_title="Share of observations monitored",
+            yaxis_title="Escalation events captured",
+            yaxis_range=[0, 1],
+            margin=dict(
+                l=20,
+                r=20,
+                t=30,
+                b=20
+            )
+        )
+
+        st.plotly_chart(
+            fig,
+            use_container_width=True
+        )
     st.markdown(
-        """
-        The ranking results show that the model can concentrate a
-        substantial share of escalation events within a relatively small
-        proportion of country-month observations.
+            """
+            ### Key finding
 
-        Monitoring only the **top 5% of highest-risk observations**
-        captures **45.4% of observed escalation events**. Expanding the
-        monitoring scope to the **top 10%** captures **57.5%**, while
-        monitoring the **top 20%** captures **75.8%** of observed events.
+            The ranking analysis measures how effectively the model
+            concentrates observed escalation events within the highest-risk
+            country-month observations.
 
-        This demonstrates the operational value of the risk ranking:
-        instead of attempting to classify every observation perfectly,
-        the system can help analysts decide where limited monitoring
-        and analytical resources should be concentrated.
-        """
-    )
+            **Monitoring the top 5% of highest-risk country-month observations
+            captures 45.4% of observed escalation events.** Expanding coverage
+            to the top 10% captures 57.5%, while the top 20% captures 75.8%.
+            """
+        )
+    st.divider()
 
-    # -----------------------------------------------------
-    # RISK CONCENTRATION CHART
-    # -----------------------------------------------------
+    # =====================================================
+    # INTERPRETATION
+    # =====================================================
 
-    fig = px.bar(
-        ranking,
-        x="Risk-ranked population",
-        y="Recall",
-        text="Recall",
-        title="Share of Observed Escalations Captured"
-    )
-
-    fig.update_traces(
-        texttemplate="%{text:.1%}",
-        textposition="outside"
-    )
-
-    fig.update_layout(
-        height=450,
-        xaxis_title="Share of observations monitored",
-        yaxis_title="Share of observed events captured",
-        yaxis_range=[0, 1]
-    )
-
-    st.plotly_chart(
-        fig,
-        use_container_width=True
-    )
+    st.subheader("How should the alerts be interpreted?")
 
     st.info(
-        """
-        Risk rankings should be interpreted as prioritisation signals,
-        not deterministic predictions. A country-month observation
-        outside the selected high-risk population is not necessarily
-        safe, while a high-risk observation does not imply that an
-        escalation will necessarily occur.
-        """
+        "Risk scores are prioritisation signals, not deterministic "
+        "predictions. A high-risk observation does not imply that an "
+        "escalation will occur, while an observation below the selected "
+        "threshold is not necessarily safe."
     )
-    
 # =========================================================
 # DIAGNOSTICS
 # =========================================================
@@ -1561,7 +1903,11 @@ elif page == "Diagnostics":
             use_container_width=True,
             hide_index=True
         )
-
+        st.caption(
+            "Predicted probabilities broadly follow the observed frequency "
+            "of escalation events. Deviations from the diagonal indicate "
+            "where the model tends to over- or under-estimate risk."
+        )
     else:
 
         st.warning(
@@ -1769,9 +2115,9 @@ elif page == "Diagnostics":
     )
 
     st.caption(
-        "The model maintains strong discrimination across the "
-        "2020–2025 out-of-sample period, although performance "
-        "naturally varies across individual years."
+        "Performance remains relatively stable across the 2020–2025 "
+        "out-of-sample period, although individual years show some variation "
+        "in predictive performance."
     )
 
     st.divider()
@@ -1857,6 +2203,13 @@ elif page == "Diagnostics":
         ablation_plot,
         use_container_width=True,
         hide_index=True
+    )
+
+    st.caption(
+        "The comparison shows the incremental value of adding socioeconomic "
+        "and demographic information to historical conflict features. "
+        "Differences in performance should be interpreted as predictive "
+        "contribution, not causal effects."
     )
 
     # -----------------------------------------------------
@@ -2080,6 +2433,12 @@ elif page == "Diagnostics":
             hide_index=True
         )
 
+        st.caption(
+            "The table shows the features with the largest permutation "
+            "importance. Higher values indicate a greater contribution to "
+            "predictive performance when the feature is available to the model."
+        )
+
     else:
 
         st.warning(
@@ -2119,6 +2478,13 @@ elif page == "Diagnostics":
         threshold_plot,
         use_container_width=True,
         hide_index=True
+    )
+
+    st.caption(
+        "Lower thresholds generate more alerts and favour recall, while "
+        "higher thresholds produce fewer and more selective alerts. The "
+        "0.20 and 0.50 thresholds represent the two operating points used "
+        "in this dashboard."
     )
 
     # -----------------------------------------------------
